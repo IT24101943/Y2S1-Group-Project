@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Care Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'blood-red': '#dc2626',
+            'blood-dark': '#b91c1c',
+            'blood-light': '#fee2e2'
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-blood-red text-white flex flex-col">
+      <div class="p-6 border-b border-blood-dark">
+        <h2 class="text-2xl font-bold"><i class="fas fa-headset mr-2"></i>Customer Care</h2>
+      </div>
+      <nav class="flex-1 p-4 space-y-2">
+        <button onclick="showView('queries')" class="w-full flex items-center px-4 py-2 rounded-lg hover:bg-blood-dark"><i class="fas fa-envelope mr-3"></i> User Queries</button>
+        <button onclick="showView('notifications')" class="w-full flex items-center px-4 py-2 rounded-lg hover:bg-blood-dark"><i class="fas fa-bell mr-3"></i> Notifications</button>
+        <button onclick="showView('issues')" class="w-full flex items-center px-4 py-2 rounded-lg hover:bg-blood-dark"><i class="fas fa-bug mr-3"></i> Report Issues</button>
+        <button onclick="showView('help')" class="w-full flex items-center px-4 py-2 rounded-lg hover:bg-blood-dark"><i class="fas fa-question-circle mr-3"></i> Help / Guidance</button>
+      </nav>
+      <div class="p-4 border-t border-blood-dark">
+        <a href="login.html" class="flex items-center text-red-100 hover:text-white">
+          <i class="fas fa-sign-out-alt mr-2"></i> Logout
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+
+      <!-- User Queries -->
+      <div id="queries" class="view hidden">
+        <h1 class="text-3xl font-bold text-blood-red mb-6">User Queries</h1>
+        <div class="bg-white shadow rounded-lg p-6">
+          <table class="w-full table-auto">
+            <thead>
+              <tr class="bg-blood-light text-left">
+                <th class="p-3">User</th>
+                <th class="p-3">Message</th>
+                <th class="p-3">Status</th>
+                <th class="p-3">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b">
+                <td class="p-3">Alice</td>
+                <td class="p-3">How can I register as a donor?</td>
+                <td class="p-3 text-yellow-600">Pending</td>
+                <td class="p-3"><button class="text-blue-600 hover:underline">Reply</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <div id="notifications" class="view hidden">
+        <h1 class="text-3xl font-bold text-blood-red mb-6">Send Notifications</h1>
+        <div class="bg-white shadow rounded-lg p-6">
+          <form class="space-y-4">
+            <input type="text" placeholder="Enter user email or ID" class="w-full border rounded p-2">
+            <textarea placeholder="Type your message here..." class="w-full border rounded p-2"></textarea>
+            <button type="submit" class="bg-blood-red text-white px-4 py-2 rounded">Send</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Report Issues -->
+      <div id="issues" class="view hidden">
+        <h1 class="text-3xl font-bold text-blood-red mb-6">Report System Issues</h1>
+        <div class="bg-white shadow rounded-lg p-6">
+          <form class="space-y-4">
+            <textarea placeholder="Describe the issue..." class="w-full border rounded p-2"></textarea>
+            <button type="submit" class="bg-blood-red text-white px-4 py-2 rounded">Report to Admin</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Help -->
+      <div id="help" class="view hidden">
+        <h1 class="text-3xl font-bold text-blood-red mb-6">Help & Guidance</h1>
+        <div class="bg-white shadow rounded-lg p-6 space-y-4">
+          <div>
+            <h3 class="font-semibold">How to Register?</h3>
+            <p>Click "Register" on the homepage and fill out your details.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold">How to Request Blood?</h3>
+            <p>Log in as a receiver, go to 'Request Blood', and submit the form.</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    function showView(viewId) {
+      document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+      document.getElementById(viewId).classList.remove('hidden');
+    }
+    // Show Queries by default
+    showView('queries');
+  </script>
+</body>
+</html>
