@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Login - Blood Donation System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'blood-red': '#DC2626',
+                        'blood-red-dark': '#B91C1C',
+                        'blood-red-light': '#FEE2E2'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-red-50 to-white">
+    <!-- Header -->
+    <header class="bg-white shadow-md border-b-4 border-blood-red">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-heart text-3xl text-blood-red"></i>
+                    <h1 class="text-2xl font-bold text-gray-800">Blood Donation System</h1>
+                </div>
+                <nav>
+                    <a href="header.html" class="text-gray-600 hover:text-blood-red transition-colors duration-200">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+        <div class="max-w-4xl mx-auto">
+            <!-- Page Title -->
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Staff Login Portal</h2>
+                <p class="text-lg text-gray-600">Select your role and access your dashboard</p>
+            </div>
+
+            <!-- Role Selection Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <!-- Admin Card -->
+                <div class="role-card bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer border-2 border-transparent hover:border-blood-red"
+                     onclick="selectRole('admin')">
+                    <div class="p-6 text-center">
+                        <div class="bg-blood-red-light rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-user-shield text-3xl text-blood-red"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Admin</h3>
+                        <p class="text-gray-600 text-sm">System Administrator</p>
+                    </div>
+                </div>
+
+                <!-- Hospital Staff Card -->
+                <div class="role-card bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer border-2 border-transparent hover:border-blood-red"
+                     onclick="selectRole('hospital')">
+                    <div class="p-6 text-center">
+                        <div class="bg-blood-red-light rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-hospital text-3xl text-blood-red"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Hospital Staff</h3>
+                        <p class="text-gray-600 text-sm">Hospital Personnel</p>
+                    </div>
+                </div>
+
+                <!-- Customer Support Card -->
+                <div class="role-card bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer border-2 border-transparent hover:border-blood-red"
+                     onclick="selectRole('support')">
+                    <div class="p-6 text-center">
+                        <div class="bg-blood-red-light rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-headset text-3xl text-blood-red"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Customer Support</h3>
+                        <p class="text-gray-600 text-sm">Support Representative</p>
+                    </div>
+                </div>
+
+                <!-- Doctor Card -->
+                <div class="role-card bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer border-2 border-transparent hover:border-blood-red"
+                     onclick="selectRole('doctor')">
+                    <div class="p-6 text-center">
+                        <div class="bg-blood-red-light rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-user-md text-3xl text-blood-red"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Doctor</h3>
+                        <p class="text-gray-600 text-sm">Medical Professional</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Form -->
+            <div class="max-w-md mx-auto bg-white rounded-lg shadow-xl p-8 border-t-4 border-blood-red">
+                <div class="text-center mb-6">
+                    <div id="selectedRoleIcon" class="bg-blood-red-light rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <i id="roleIcon" class="fas fa-user text-2xl text-blood-red"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800" id="loginTitle">Select Role Above</h3>
+                </div>
+
+                <form action="${pageContext.request.contextPath}/staff/login" method="post" class="space-y-6">
+                    <input type="hidden" id="userRole" name="role" value="">
+                    
+                    <!-- Error Message Display -->
+                    <c:if test="${not empty error}">
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            ${error}
+                        </div>
+                    </c:if>
+
+                    <!-- Username Field -->
+                    <div class="space-y-2">
+                        <label for="username" class="block text-sm font-medium text-gray-700">
+                            <i class="fas fa-user mr-2 text-blood-red"></i>Username
+                        </label>
+                        <input type="text" 
+                               id="username" 
+                               name="username" 
+                               required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blood-red focus:border-transparent transition-colors duration-200"
+                               placeholder="Enter your username">
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="space-y-2">
+                        <label for="password" class="block text-sm font-medium text-gray-700">
+                            <i class="fas fa-lock mr-2 text-blood-red"></i>Password
+                        </label>
+                        <div class="relative">
+                            <input type="password" 
+                                   id="password" 
+                                   name="password" 
+                                   required 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blood-red focus:border-transparent transition-colors duration-200"
+                                   placeholder="Enter your password">
+                            <button type="button" 
+                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-blood-red"
+                                    onclick="togglePassword()">
+                                <i id="passwordToggle" class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Remember Me -->
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center">
+                            <input type="checkbox" 
+                                   name="remember" 
+                                   class="w-4 h-4 text-blood-red border-gray-300 rounded focus:ring-blood-red">
+                            <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                        </label>
+                        <a href="${pageContext.request.contextPath}/staff/forgot-password" 
+                           class="text-sm text-blood-red hover:underline">
+                            Forgot password?
+                        </a>
+                    </div>
+
+                    <!-- Login Button -->
+                    <button type="submit" 
+                            id="loginBtn"
+                            disabled
+                            class="w-full bg-gray-400 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 cursor-not-allowed">
+                        <i class="fas fa-sign-in-alt mr-2"></i>
+                        Select Role First
+                    </button>
+                </form>
+
+                <!-- Additional Links -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-600 mb-2">Need help?</p>
+                    <div class="space-x-4">
+                        <a href="${pageContext.request.contextPath}/contact" 
+                           class="text-sm text-blood-red hover:underline">
+                            <i class="fas fa-phone mr-1"></i>Contact IT Support
+                        </a>
+                        <a href="${pageContext.request.contextPath}/" 
+                           class="text-sm text-blood-red hover:underline">
+                            <i class="fas fa-arrow-left mr-1"></i>Back to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-8">
+            <div class="text-center">
+                <p>&copy; 2025 Blood Donation System. All rights reserved.</p>
+                <p class="text-sm text-gray-400 mt-2">Saving lives through technology</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Role selection and form management
+        let selectedRole = '';
+        
+        const roleConfigs = {
+            admin: {
+                icon: 'fas fa-user-shield',
+                title: 'Admin Login',
+                color: 'blood-red'
+            },
+            hospital: {
+                icon: 'fas fa-hospital',
+                title: 'Hospital Staff Login',
+                color: 'blood-red'
+            },
+            support: {
+                icon: 'fas fa-headset',
+                title: 'Customer Support Login',
+                color: 'blood-red'
+            },
+            doctor: {
+                icon: 'fas fa-user-md',
+                title: 'Doctor Login',
+                color: 'blood-red'
+            }
+        };
+
+        function selectRole(role) {
+            selectedRole = role;
+            const config = roleConfigs[role];
+            
+            // Update UI
+            document.getElementById('roleIcon').className = config.icon + ' text-2xl text-blood-red';
+            document.getElementById('loginTitle').textContent = config.title;
+            document.getElementById('userRole').value = role;
+            
+            // Update button
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.disabled = false;
+            loginBtn.className = 'w-full bg-blood-red hover:bg-blood-red-dark text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 cursor-pointer';
+            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i>Login as ' + config.title.replace(' Login', '');
+            
+            // Highlight selected card
+            document.querySelectorAll('.role-card').forEach(card => {
+                card.classList.remove('border-blood-red', 'bg-red-50');
+                card.classList.add('border-transparent');
+            });
+            
+            event.target.closest('.role-card').classList.add('border-blood-red', 'bg-red-50');
+            event.target.closest('.role-card').classList.remove('border-transparent');
+            
+            // Smooth scroll to form
+            document.querySelector('.max-w-md').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+        }
+
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const passwordToggle = document.getElementById('passwordToggle');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                passwordToggle.className = 'fas fa-eye-slash';
+            } else {
+                passwordField.type = 'password';
+                passwordToggle.className = 'fas fa-eye';
+            }
+        }
+
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            if (!selectedRole) {
+                e.preventDefault();
+                alert('Please select a role before logging in.');
+                return false;
+            }
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            if (!username || !password) {
+                e.preventDefault();
+                alert('Please fill in all required fields.');
+                return false;
+            }
+        });
+
+        // Add loading state on form submission
+        document.querySelector('form').addEventListener('submit', function() {
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Logging in...';
+            loginBtn.disabled = true;
+        });
+
+        // Add hover effects to role cards
+        document.querySelectorAll('.role-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('border-blood-red')) {
+                    this.classList.add('transform', 'scale-105');
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.classList.remove('transform', 'scale-105');
+            });
+        });
+    </script>
+</body>
+</html>
