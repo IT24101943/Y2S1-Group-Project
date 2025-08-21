@@ -1,205 +1,222 @@
+<!-- reports.html - Fully Functional with Charts -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports - Doctor Dashboard - Blood Donation System</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>BloodLink - Reports</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" rel="stylesheet">
     <style>
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Same styles */
+        :root {
+            --primary-red: #C8102E;
+            --secondary-blue: #007BFF;
+            --bg-light: #F8F9FA;
+            --text-dark: #212529;
         }
-        .animate-fadeInUp { animation: fadeInUp 0.6s ease-out forwards; }
-        .dropdown-menu {
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            opacity: 0; transform: translateY(-10px); pointer-events: none;
-        }
-        .dropdown-menu.open {
-            opacity: 1; transform: translateY(0); pointer-events: auto;
-        }
+        body { background-color: var(--bg-light); color: var(--text-dark); font-family: 'Roboto', sans-serif; }
+        .sidebar { background-color: white; border-right: 1px solid #dee2e6; height: 100vh; position: fixed; width: 250px; padding: 1rem; overflow-y: auto; }
+        .main-content { margin-left: 250px; padding: 2rem; }
+        .card { border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+        .animate__fadeIn { animation-duration: 1s; }
+        .btn-primary { background-color: var(--primary-red); border-color: var(--primary-red); }
+        .btn-primary:hover { background-color: #a50d26; }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 </head>
-<body class="flex flex-col min-h-screen bg-gray-50 font-sans">
-<!-- Header -->
-<header class="bg-white shadow-md">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-        <div class="flex items-center">
-            <h1 class="text-2xl font-bold text-red-600">BloodLink</h1>
+<body>
+<div class="sidebar">
+    <h4 class="text-center mb-4">BloodLink</h4>
+    <ul class="nav flex-column">
+        <li class="nav-item"><a href="doctor.html" class="nav-link"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a></li>
+        <li class="nav-item"><a href="appointments.html" class="nav-link"><i class="fas fa-calendar-check me-2"></i> Appointments</a></li>
+        <li class="nav-item"><a href="donors.html" class="nav-link"><i class="fas fa-users me-2"></i> Donors</a></li>
+        <li class="nav-item"><a href="reports.html" class="nav-link active"><i class="fas fa-chart-bar me-2"></i> Reports</a></li>
+    </ul>
+    <hr>
+    <div class="dropdown">
+        <a href="#" class="d-flex align-items-center nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="Profile">
+            Dr. Shanika Jayawardena
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="main-content animate__animated animate__fadeIn">
+    <div class="container-fluid">
+        <div class="row mb-4">
+            <div class="col-md-4"><div class="card text-center p-3"><i class="fas fa-file-alt fa-2x text-primary mb-2"></i><h5>Donation Reports</h5></div></div>
+            <div class="col-md-4"><div class="card text-center p-3"><i class="fas fa-check fa-2x text-success mb-2"></i><h5>Eligibility Reports</h5></div></div>
+            <div class="col-md-4"><div class="card text-center p-3"><i class="fas fa-chart-pie fa-2x text-warning mb-2"></i><h5>Generate Custom Report</h5></div></div>
         </div>
-        <nav class="flex items-center space-x-6">
-            <a href="doctor.html" class="text-gray-600 hover:text-red-600 transition-colors">Dashboard</a>
-            <a href="appointments.html" class="text-red-600 font-semibold">Appointments</a>
-            <a href="donors.html" class="text-gray-600 hover:text-red-600 transition-colors">Donors</a>
-            <a href="reports.html" class="text-gray-600 hover:text-red-600 transition-colors">Reports</a>
-            <div class="relative">
-                <button class="flex items-center text-gray-600 hover:text-red-600 transition-colors">
-                    <i class="fas fa-user-circle mr-2"></i> Dr. Shanika Jayawardena
-                </button>
-                <!-- Dropdown menu (hidden by default) -->
-                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden">
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Settings</a>
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
+
+        <div class="row mb-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header"><h5>Donation Reports</h5></div>
+                    <div class="card-body">
+                        <table class="table table-hover" id="donationTable">
+                            <thead><tr><th>Date Range</th><th>Total Donations</th><th>Approved</th><th>Rejected</th><th>Actions</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                        <canvas id="donationChart" height="200"></canvas>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </div>
-</header>
+        </div>
 
-<!-- Main Content -->
-<main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <!-- Sidebar -->
-        <aside class="lg:col-span-1 bg-white rounded-lg shadow-md p-6 hidden lg:block animate-fadeInUp" style="animation-delay: 0.1s;">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Quick Actions</h2>
-            <ul class="space-y-3">
-                <li><a href="#donation" class="text-red-600 hover:underline transition-colors duration-200">Donation Reports</a></li>
-                <li><a href="#eligibility" class="text-red-600 hover:underline transition-colors duration-200">Eligibility Reports</a></li>
-                <li><a href="#generate" class="text-red-600 hover:underline transition-colors duration-200">Generate Custom Report</a></li>
-            </ul>
-        </aside>
-
-        <!-- Reports Content -->
-        <div class="lg:col-span-3 space-y-8">
-            <!-- Donation Reports -->
-            <section id="donation" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-105 transition-all duration-300 animate-fadeInUp" style="animation-delay: 0.2s;">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Donation Reports</h2>
-                <div class="overflow-x-auto">
-                    <table id="donation-table" class="w-full text-left border-collapse">
-                        <thead>
-                        <tr class="bg-gray-100">
-                            <th class="p-3 border-b">Date Range</th>
-                            <th class="p-3 border-b">Total Donations</th>
-                            <th class="p-3 border-b">Approved</th>
-                            <th class="p-3 border-b">Rejected</th>
-                            <th class="p-3 border-b">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody id="donation-body"></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Eligibility Reports -->
-            <section id="eligibility" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-105 transition-all duration-300 animate-fadeInUp" style="animation-delay: 0.3s;">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Donor Eligibility Reports</h2>
-                <div class="overflow-x-auto">
-                    <table id="eligibility-table" class="w-full text-left border-collapse">
-                        <thead>
-                        <tr class="bg-gray-100">
-                            <th class="p-3 border-b">Donor Name</th>
-                            <th class="p-3 border-b">Last Evaluation</th>
-                            <th class="p-3 border-b">Status</th>
-                            <th class="p-3 border-b">Next Eligible Date</th>
-                        </tr>
-                        </thead>
-                        <tbody id="eligibility-body"></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Generate Report -->
-            <section id="generate" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-105 transition-all duration-300 animate-fadeInUp" style="animation-delay: 0.4s;">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Generate Custom Report</h2>
-                <form id="report-form" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-gray-700">Start Date</label>
-                            <input type="date" id="report-start" class="w-full p-2 border rounded focus:ring-2 focus:ring-red-500 transition-all duration-200">
-                        </div>
-                        <div>
-                            <label class="block text-gray-700">End Date</label>
-                            <input type="date" id="report-end" class="w-full p-2 border rounded focus:ring-2 focus:ring-red-500 transition-all duration-200">
-                        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header"><h5>Donor Eligibility Reports</h5></div>
+                    <div class="card-body">
+                        <table class="table table-hover" id="eligibilityTable">
+                            <thead><tr><th>Donor Name</th><th>Last Evaluation</th><th>Status</th><th>Next Eligible Date</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
-                    <div>
-                        <label class="block text-gray-700">Report Type</label>
-                        <select id="report-type" class="w-full p-2 border rounded focus:ring-2 focus:ring-red-500 transition-all duration-200">
-                            <option value="donation">Donation Summary</option>
-                            <option value="eligibility">Eligibility Overview</option>
-                        </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header"><h5>Generate Custom Report</h5></div>
+                    <div class="card-body">
+                        <form id="reportForm">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="startDate" class="form-label">Start Date</label>
+                                    <input type="date" class="form-control" id="startDate">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="endDate" class="form-label">End Date</label>
+                                    <input type="date" class="form-control" id="endDate">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="reportType" class="form-label">Report Type</label>
+                                <select class="form-select" id="reportType">
+                                    <option>Donation Summary</option>
+                                    <option>Eligibility Overview</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Generate Report</button>
+                        </form>
+                        <div id="customReport" class="mt-4"></div>
                     </div>
-                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors duration-200">Generate Report</button>
-                </form>
-            </section>
+                </div>
+            </div>
         </div>
     </div>
-</main>
+</div>
 
-<!-- Footer -->
-<footer class="bg-gray-800 text-white py-6 mt-auto">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-        <p>© 2025 BloodLink. All rights reserved. | Saving lives through technology.</p>
-    </div>
+<footer class="text-center py-3 mt-4" style="background-color: white; border-top: 1px solid #dee2e6;">
+    © 2025 BloodLink. All rights reserved. | Saving lives through technology.
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Load reports
-    const loadReports = () => {
-        const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
-        const donors = JSON.parse(localStorage.getItem('donors') || '[]');
-        const donationBody = document.getElementById('donation-body');
-        const eligibilityBody = document.getElementById('eligibility-body');
-        donationBody.innerHTML = '';
-        eligibilityBody.innerHTML = '';
+    // Data functions
+    function initData() {
+        if (!localStorage.getItem('bloodLinkData')) {
+            const data = {
+                donors: [
+                    { name: 'Chamika Aluthgama', bloodType: 'O+', notes: [], history: [{date: '2025-08-25', status: 'pending'}], lastEvaluation: '2025-08-01', nextEligible: '2025-09-01' },
+                    { name: 'Example Donor', bloodType: 'A-', notes: [], history: [{date: '2025-08-20', status: 'approved'}], lastEvaluation: '2025-08-10', nextEligible: '2025-09-10' },
+                    { name: 'Another Donor', bloodType: 'B+', notes: [], history: [{date: '2025-08-15', status: 'rejected'}], lastEvaluation: '2025-08-05', nextEligible: '2025-09-05' }
+                ],
+                appointments: [
+                    { id: 1, donorName: 'Chamika Aluthgama', bloodType: 'O+', date: '2025-08-25', status: 'pending' },
+                    { id: 2, donorName: 'Example Donor', bloodType: 'A-', date: '2025-08-20', status: 'approved' },
+                    { id: 3, donorName: 'Another Donor', bloodType: 'B+', date: '2025-08-15', status: 'rejected' }
+                ]
+            };
+            localStorage.setItem('bloodLinkData', JSON.stringify(data));
+        }
+    }
+    function getData() { return JSON.parse(localStorage.getItem('bloodLinkData')); }
+    function saveData(data) { localStorage.setItem('bloodLinkData', JSON.stringify(data)); }
 
-        // Donation Report
-        const total = appointments.length;
-        const approved = appointments.filter(a => a.status === 'Approved').length;
-        const rejected = appointments.filter(a => a.status === 'Rejected').length;
-        const donationRow = document.createElement('tr');
-        donationRow.className = 'hover:bg-gray-50 transition-colors duration-200';
-        donationRow.innerHTML = `
-                <td class="p-3 border-b">2025-01-01 to 2025-08-19</td>
-                <td class="p-3 border-b">${total}</td>
-                <td class="p-3 border-b">${approved}</td>
-                <td class="p-3 border-b">${rejected}</td>
-                <td class="p-3 border-b"><a href="#" class="text-blue-600 hover:underline transition-colors duration-200 download-report" data-type="donation">Download PDF</a></td>
-            `;
-        donationBody.appendChild(donationRow);
+    initData();
+    let data = getData();
 
-        // Eligibility Report
-        donors.forEach(donor => {
-            const row = document.createElement('tr');
-            row.className = 'hover:bg-gray-50 transition-colors duration-200';
-            row.innerHTML = `
-                    <td class="p-3 border-b">${donor.name}</td>
-                    <td class="p-3 border-b">${donor.lastDonation}</td>
-                    <td class="p-3 border-b text-green-600">Eligible</td>
-                    <td class="p-3 border-b">${new Date(new Date(donor.lastDonation).setDate(new Date(donor.lastDonation).getDate() + 90)).toISOString().split('T')[0]}</td>
+    function renderDonationReports() {
+        // Simple aggregate for all time
+        const total = data.appointments.length;
+        const approved = data.appointments.filter(a => a.status === 'approved').length;
+        const rejected = data.appointments.filter(a => a.status === 'rejected').length;
+        const tbody = document.querySelector('#donationTable tbody');
+        tbody.innerHTML = `<tr><td>All Time</td><td>${total}</td><td>${approved}</td><td>${rejected}</td><td><button class="btn btn-sm btn-info">View Details</button></td></tr>`;
+
+        // Chart
+        const ctx = document.getElementById('donationChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Approved', 'Rejected', 'Pending'],
+                datasets: [{
+                    data: [approved, rejected, total - approved - rejected],
+                    backgroundColor: ['#28a745', '#dc3545', '#ffc107']
+                }]
+            },
+            options: { responsive: true }
+        });
+    }
+
+    function renderEligibilityReports() {
+        const tbody = document.querySelector('#eligibilityTable tbody');
+        tbody.innerHTML = '';
+        data.donors.forEach(donor => {
+            const tr = document.createElement('tr');
+            const status = new Date(donor.nextEligible) > new Date('2025-08-21') ? 'Eligible' : 'Ineligible';
+            tr.innerHTML = `
+                    <td>${donor.name}</td>
+                    <td>${donor.lastEvaluation}</td>
+                    <td>${status}</td>
+                    <td>${donor.nextEligible}</td>
                 `;
-            eligibilityBody.appendChild(row);
+            tbody.appendChild(tr);
         });
-    };
+    }
 
-    // Handle report generation
-    const handleReportGeneration = (e) => {
+    renderDonationReports();
+    renderEligibilityReports();
+
+    document.getElementById('reportForm').addEventListener('submit', e => {
         e.preventDefault();
-        const start = document.getElementById('report-start').value;
-        const end = document.getElementById('report-end').value;
-        const type = document.getElementById('report-type').value;
-        alert(`Generating ${type} report for ${start} to ${end}. (Simulated - Implement backend for actual report generation.)`);
-    };
+        const start = new Date(document.getElementById('startDate').value);
+        const end = new Date(document.getElementById('endDate').value);
+        const type = document.getElementById('reportType').value;
+        const reportDiv = document.getElementById('customReport');
+        reportDiv.innerHTML = '';
 
-    // Event listeners
-    document.addEventListener('DOMContentLoaded', () => {
-        loadReports();
-
-        document.getElementById('report-form').addEventListener('submit', handleReportGeneration);
-
-        document.getElementById('donation-table').addEventListener('click', (e) => {
-            if (e.target.classList.contains('download-report')) {
-                alert('Downloading report... (Simulated - Implement backend for actual PDF download.)');
-            }
-        });
-
-        // Dropdown toggle
-        document.getElementById('user-menu-button').addEventListener('click', () => {
-            document.getElementById('user-menu').classList.toggle('open');
-            document.getElementById('user-menu').classList.toggle('hidden');
-        });
+        if (type === 'Donation Summary') {
+            const filteredAppts = data.appointments.filter(a => new Date(a.date) >= start && new Date(a.date) <= end);
+            const total = filteredAppts.length;
+            const approved = filteredAppts.filter(a => a.status === 'approved').length;
+            const rejected = filteredAppts.filter(a => a.status === 'rejected').length;
+            reportDiv.innerHTML = `<h6>Donation Summary (${start.toDateString()} - ${end.toDateString()})</h6>
+                    <p>Total: ${total} | Approved: ${approved} | Rejected: ${rejected}</p>`;
+        } else if (type === 'Eligibility Overview') {
+            const filteredDonors = data.donors.filter(d => new Date(d.lastEvaluation) >= start && new Date(d.lastEvaluation) <= end);
+            let html = `<h6>Eligibility Overview (${start.toDateString()} - ${end.toDateString()})</h6><ul>`;
+            filteredDonors.forEach(d => {
+                html += `<li>${d.name}: Next Eligible ${d.nextEligible}</li>`;
+            });
+            html += '</ul>';
+            reportDiv.innerHTML = html;
+        }
     });
 </script>
 </body>

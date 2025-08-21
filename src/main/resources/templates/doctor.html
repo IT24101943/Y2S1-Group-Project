@@ -1,137 +1,256 @@
+<!-- doctor.html (Dashboard) - Fully Functional with JS for Dynamics -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Dashboard - Blood Donation System</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>BloodLink - Doctor Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #C8102E;
+            --secondary-blue: #007BFF;
+            --bg-light: #F8F9FA;
+            --text-dark: #212529;
+        }
+        body { background-color: var(--bg-light); color: var(--text-dark); font-family: 'Roboto', sans-serif; }
+        .navbar { background-color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .sidebar { background-color: white; border-right: 1px solid #dee2e6; height: 100vh; position: fixed; width: 250px; padding: 1rem; overflow-y: auto; }
+        .main-content { margin-left: 250px; padding: 2rem; }
+        .card { border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+        .blood-drop { animation: drop 2s infinite; }
+        @keyframes drop { 0% { transform: translateY(0); } 50% { transform: translateY(10px); } 100% { transform: translateY(0); } }
+        .heartbeat { animation: heartbeat 1.5s infinite; }
+        @keyframes heartbeat { 0% { transform: scale(1); } 20% { transform: scale(1.1); } 40% { transform: scale(1); } }
+        .animate__fadeIn { animation-duration: 1s; }
+        .btn-primary { background-color: var(--primary-red); border-color: var(--primary-red); }
+        .btn-primary:hover { background-color: #a50d26; }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" rel="stylesheet">
 </head>
-<body class="flex flex-col min-h-screen bg-gray-50 font-sans">
+<body>
+<div class="sidebar">
+    <h4 class="text-center mb-4">BloodLink</h4>
+    <ul class="nav flex-column">
+        <li class="nav-item"><a href="doctor.html" class="nav-link active"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a></li>
+        <li class="nav-item"><a href="appointments.html" class="nav-link"><i class="fas fa-calendar-check me-2"></i> Appointments</a></li>
+        <li class="nav-item"><a href="donors.html" class="nav-link"><i class="fas fa-users me-2"></i> Donors</a></li>
+        <li class="nav-item"><a href="reports.html" class="nav-link"><i class="fas fa-chart-bar me-2"></i> Reports</a></li>
+    </ul>
+    <hr>
+    <div class="dropdown">
+        <a href="#" class="d-flex align-items-center nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="Profile">
+            Dr. Shanika Jayawardena
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+        </ul>
+    </div>
+</div>
 
-<!-- Header Section (Adapted from header.html) -->
-<header class="bg-white shadow-md">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-        <div class="flex items-center">
-            <h1 class="text-2xl font-bold text-red-600">BloodLink</h1>
-            <span class="ml-4 text-sm text-gray-600">Doctor Dashboard</span>
+<div class="main-content animate__animated animate__fadeIn">
+    <div class="container-fluid">
+        <div class="row mb-4">
+            <div class="col">
+                <h2 class="heartbeat">Welcome, Dr. Shanika Jayawardena <i class="fas fa-heart text-danger ms-2"></i></h2>
+                <p>Manage donor evaluations, approvals, and medical records efficiently.</p>
+            </div>
         </div>
-        <nav class="flex items-center space-x-6">
-            <a href="doctor.html" class="text-red-600 font-semibold">Dashboard</a>
-            <a href="appointments.html" class="text-gray-600 hover:text-red-600 transition-colors">Appointments</a>
-            <a href="donors.html" class="text-gray-600 hover:text-red-600 transition-colors">Donors</a>
-            <a href="reports.html" class="text-gray-600 hover:text-red-600 transition-colors">Reports</a>
-            <div class="relative">
-                <button class="flex items-center text-gray-600 hover:text-red-600 transition-colors">
-                    <i class="fas fa-user-circle mr-2"></i> Dr. Shanika Jayawardena
-                </button>
-                <!-- Dropdown menu (hidden by default) -->
-                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden">
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Settings</a>
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
+
+        <div class="row mb-4">
+            <div class="col-md-3"><div class="card text-center p-3 blood-drop"><i class="fas fa-clock fa-2x text-primary mb-2"></i><h5>Pending Approvals</h5></div></div>
+            <div class="col-md-3"><div class="card text-center p-3"><i class="fas fa-users fa-2x text-success mb-2"></i><h5>View Donors</h5></div></div>
+            <div class="col-md-3"><div class="card text-center p-3"><i class="fas fa-history fa-2x text-warning mb-2"></i><h5>Donation History</h5></div></div>
+            <div class="col-md-3"><div class="card text-center p-3"><i class="fas fa-notes-medical fa-2x text-danger mb-2"></i><h5>Add Medical Notes</h5></div></div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header"><h5>Pending Donation Appointments</h5></div>
+                    <div class="card-body">
+                        <table class="table table-hover" id="pendingTable">
+                            <thead><tr><th>Donor Name</th><th>Blood Type</th><th>Appointment Date</th><th>Actions</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </div>
-</header>
+        </div>
 
-<!-- Main Content -->
-<main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <!-- Sidebar (Responsive: Hidden on mobile, shown on lg) -->
-        <aside class="lg:col-span-1 bg-white rounded-lg shadow-md p-6 hidden lg:block">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Quick Actions</h2>
-            <ul class="space-y-3">
-                <li><a href="#pending" class="text-red-600 hover:underline">Pending Approvals</a></li>
-                <li><a href="#donors" class="text-red-600 hover:underline">View Donors</a></li>
-                <li><a href="#history" class="text-red-600 hover:underline">Donation History</a></li>
-                <li><a href="#notes" class="text-red-600 hover:underline">Add Medical Notes</a></li>
-            </ul>
-        </aside>
-
-        <!-- Main Dashboard Content -->
-        <div class="lg:col-span-3 space-y-8">
-            <!-- Welcome Section -->
-            <section class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-                <h2 class="text-2xl font-bold text-red-600 mb-4">Welcome, Dr. Shanika Jayawardena</h2>
-                <p class="text-gray-600">Manage donor evaluations, approvals, and medical records efficiently.</p>
-            </section>
-
-            <!-- Pending Approvals Section -->
-            <section id="pending" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Pending Donation Appointments</h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                        <tr class="bg-gray-100">
-                            <th class="p-3 border-b">Donor Name</th>
-                            <th class="p-3 border-b">Blood Type</th>
-                            <th class="p-3 border-b">Appointment Date</th>
-                            <th class="p-3 border-b">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="p-3 border-b">Chamika Aluthgama</td>
-                            <td class="p-3 border-b">O+</td>
-                            <td class="p-3 border-b">2025-08-25</td>
-                            <td class="p-3 border-b">
-                                <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition-colors">Approve</button>
-                                <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors ml-2">Reject</button>
-                            </td>
-                        </tr>
-                        <!-- Add more rows as needed -->
-                        </tbody>
-                    </table>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body" id="donorProfiles"></div>
                 </div>
-            </section>
+            </div>
+        </div>
 
-            <!-- Donor Management Section -->
-            <section id="donors" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Donor Profiles</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-gray-50 p-4 rounded-md">
-                        <h3 class="font-medium text-gray-800">Chamika Aluthgama</h3>
-                        <p class="text-sm text-gray-600">View health reports, history, and add notes.</p>
-                        <button class="mt-2 bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition-colors">View Profile</button>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header"><h5>Add Medical Notes</h5></div>
+                    <div class="card-body">
+                        <form id="notesForm">
+                            <div class="mb-3">
+                                <label for="donorSelect" class="form-label">Select Donor</label>
+                                <select class="form-select" id="donorSelect"></select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="notes" class="form-label">Notes</label>
+                                <textarea class="form-control" id="notes" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Notes</button>
+                        </form>
                     </div>
-                    <!-- Add more donor cards -->
                 </div>
-            </section>
-
-            <!-- Add Notes Section -->
-            <section id="notes" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Add Medical Notes</h2>
-                <form class="space-y-4">
-                    <div>
-                        <label class="block text-gray-700">Select Donor</label>
-                        <select class="w-full p-2 border rounded">
-                            <option>Chamika Aluthgama</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700">Notes</label>
-                        <textarea class="w-full p-2 border rounded" rows="4"></textarea>
-                    </div>
-                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors">Save Notes</button>
-                </form>
-            </section>
+            </div>
         </div>
     </div>
-</main>
+</div>
 
-<!-- Footer (Adapted from header.html) -->
-<footer class="bg-gray-800 text-white py-6 mt-auto">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-        <p>© 2025 BloodLink. All rights reserved. | Saving lives through technology.</p>
-    </div>
+<footer class="text-center py-3 mt-4" style="background-color: white; border-top: 1px solid #dee2e6;">
+    © 2025 BloodLink. All rights reserved. | Saving lives through technology.
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script>
-    // Simple dropdown toggle (for user menu)
-    document.querySelector('button.flex.items-center').addEventListener('click', function() {
-        this.nextElementSibling.classList.toggle('hidden');
+    // Shared data management
+    function initData() {
+        if (!localStorage.getItem('bloodLinkData')) {
+            const data = {
+                donors: [
+                    { name: 'Chamika Aluthgama', bloodType: 'O+', notes: [], history: [] },
+                    { name: 'Example Donor', bloodType: 'A-', notes: [], history: [] },
+                    { name: 'Another Donor', bloodType: 'B+', notes: [], history: [] }
+                ],
+                appointments: [
+                    { id: 1, donorName: 'Chamika Aluthgama', bloodType: 'O+', date: '2025-08-25', status: 'pending', healthReport: 'Good' },
+                    { id: 2, donorName: 'Example Donor', bloodType: 'A-', date: '2025-08-20', status: 'approved' },
+                    { id: 3, donorName: 'Another Donor', bloodType: 'B+', date: '2025-08-15', status: 'rejected', reason: 'Health Issues' }
+                ]
+            };
+            localStorage.setItem('bloodLinkData', JSON.stringify(data));
+        }
+    }
+
+    function getData() {
+        return JSON.parse(localStorage.getItem('bloodLinkData'));
+    }
+
+    function saveData(data) {
+        localStorage.setItem('bloodLinkData', JSON.stringify(data));
+    }
+
+    // Dashboard specific
+    initData();
+    let data = getData();
+
+    function renderPending() {
+        const tbody = document.querySelector('#pendingTable tbody');
+        tbody.innerHTML = '';
+        const currentDate = new Date('2025-08-21'); // Using given current date
+        data.appointments.filter(appt => appt.status === 'pending' && new Date(appt.date) >= currentDate).forEach(appt => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                    <td>${appt.donorName}</td>
+                    <td>${appt.bloodType}</td>
+                    <td>${appt.date}</td>
+                    <td>
+                        <button class="btn btn-sm btn-success approve" data-id="${appt.id}">Approve</button>
+                        <button class="btn btn-sm btn-danger reject" data-id="${appt.id}">Reject</button>
+                    </td>
+                `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function renderDonorProfiles() {
+        const container = document.getElementById('donorProfiles');
+        container.innerHTML = '';
+        data.donors.forEach(donor => {
+            const div = document.createElement('div');
+            div.className = 'mb-3';
+            div.innerHTML = `
+                    <h5>${donor.name}</h5>
+                    <p>View health reports, history, and add notes.</p>
+                    <button class="btn btn-primary view-profile" data-name="${donor.name}">View Profile</button>
+                `;
+            container.appendChild(div);
+        });
+    }
+
+    function populateDonorSelect() {
+        const select = document.getElementById('donorSelect');
+        data.donors.forEach(donor => {
+            const option = document.createElement('option');
+            option.value = donor.name;
+            option.textContent = donor.name;
+            select.appendChild(option);
+        });
+    }
+
+    renderPending();
+    renderDonorProfiles();
+    populateDonorSelect();
+
+    // Event listeners
+    document.querySelectorAll('.approve').forEach(btn => {
+        btn.addEventListener('click', e => {
+            const id = parseInt(e.target.dataset.id);
+            const appt = data.appointments.find(a => a.id === id);
+            appt.status = 'approved';
+            saveData(data);
+            renderPending();
+        });
+    });
+
+    document.querySelectorAll('.reject').forEach(btn => {
+        btn.addEventListener('click', e => {
+            const id = parseInt(e.target.dataset.id);
+            const reason = prompt('Enter rejection reason:');
+            if (reason) {
+                const appt = data.appointments.find(a => a.id === id);
+                appt.status = 'rejected';
+                appt.reason = reason;
+                saveData(data);
+                renderPending();
+            }
+        });
+    });
+
+    document.getElementById('notesForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const donorName = document.getElementById('donorSelect').value;
+        const note = document.getElementById('notes').value;
+        const donor = data.donors.find(d => d.name === donorName);
+        donor.notes.push(note);
+        saveData(data);
+        alert('Note saved!');
+        document.getElementById('notes').value = '';
+    });
+
+    // GSAP animation
+    document.querySelectorAll('.blood-drop').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            gsap.to(el, { scale: 1.05, duration: 0.3, yoyo: true, repeat: 1 });
+        });
+    });
+
+    // View profile (simple alert for now)
+    document.querySelectorAll('.view-profile').forEach(btn => {
+        btn.addEventListener('click', e => {
+            const name = e.target.dataset.name;
+            const donor = data.donors.find(d => d.name === name);
+            alert(`Profile: ${name}\nBlood Type: ${donor.bloodType}\nNotes: ${donor.notes.join(', ')}`);
+        });
     });
 </script>
 </body>
