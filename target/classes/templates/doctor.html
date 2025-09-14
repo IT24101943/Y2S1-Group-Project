@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - Blood Donation System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="flex flex-col min-h-screen bg-gray-50 font-sans">
+
+<!-- Header Section (Adapted from header.html) -->
+<header class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <h1 class="text-2xl font-bold text-red-600">BloodLink</h1>
+            <span class="ml-4 text-sm text-gray-600">Doctor Dashboard</span>
+        </div>
+        <nav class="flex items-center space-x-6">
+            <a href="doctor.html" class="text-red-600 font-semibold">Dashboard</a>
+            <a href="appointments.html" class="text-gray-600 hover:text-red-600 transition-colors">Appointments</a>
+            <a href="donors.html" class="text-gray-600 hover:text-red-600 transition-colors">Donors</a>
+            <a href="reports.html" class="text-gray-600 hover:text-red-600 transition-colors">Reports</a>
+            <div class="relative">
+                <button class="flex items-center text-gray-600 hover:text-red-600 transition-colors">
+                    <i class="fas fa-user-circle mr-2"></i> Dr. Shanika Jayawardena
+                </button>
+                <!-- Dropdown menu (hidden by default) -->
+                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden">
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Settings</a>
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <!-- Sidebar (Responsive: Hidden on mobile, shown on lg) -->
+        <aside class="lg:col-span-1 bg-white rounded-lg shadow-md p-6 hidden lg:block">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Quick Actions</h2>
+            <ul class="space-y-3">
+                <li><a href="#pending" class="text-red-600 hover:underline">Pending Approvals</a></li>
+                <li><a href="#donors" class="text-red-600 hover:underline">View Donors</a></li>
+                <li><a href="#history" class="text-red-600 hover:underline">Donation History</a></li>
+                <li><a href="#notes" class="text-red-600 hover:underline">Add Medical Notes</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Dashboard Content -->
+        <div class="lg:col-span-3 space-y-8">
+            <!-- Welcome Section -->
+            <section class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                <h2 class="text-2xl font-bold text-red-600 mb-4">Welcome, Dr. Shanika Jayawardena</h2>
+                <p class="text-gray-600">Manage donor evaluations, approvals, and medical records efficiently.</p>
+            </section>
+
+            <!-- Pending Approvals Section -->
+            <section id="pending" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Pending Donation Appointments</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                        <tr class="bg-gray-100">
+                            <th class="p-3 border-b">Donor Name</th>
+                            <th class="p-3 border-b">Blood Type</th>
+                            <th class="p-3 border-b">Appointment Date</th>
+                            <th class="p-3 border-b">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="p-3 border-b">Chamika Aluthgama</td>
+                            <td class="p-3 border-b">O+</td>
+                            <td class="p-3 border-b">2025-08-25</td>
+                            <td class="p-3 border-b">
+                                <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition-colors">Approve</button>
+                                <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors ml-2">Reject</button>
+                            </td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Donor Management Section -->
+            <section id="donors" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Donor Profiles</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-md">
+                        <h3 class="font-medium text-gray-800">Chamika Aluthgama</h3>
+                        <p class="text-sm text-gray-600">View health reports, history, and add notes.</p>
+                        <button class="mt-2 bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition-colors">View Profile</button>
+                    </div>
+                    <!-- Add more donor cards -->
+                </div>
+            </section>
+
+            <!-- Add Notes Section -->
+            <section id="notes" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Add Medical Notes</h2>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-gray-700">Select Donor</label>
+                        <select class="w-full p-2 border rounded">
+                            <option>Chamika Aluthgama</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Notes</label>
+                        <textarea class="w-full p-2 border rounded" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors">Save Notes</button>
+                </form>
+            </section>
+        </div>
+    </div>
+</main>
+
+<!-- Footer (Adapted from header.html) -->
+<footer class="bg-gray-800 text-white py-6 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        <p>© 2025 BloodLink. All rights reserved. | Saving lives through technology.</p>
+    </div>
+</footer>
+
+<script>
+    // Simple dropdown toggle (for user menu)
+    document.querySelector('button.flex.items-center').addEventListener('click', function() {
+        this.nextElementSibling.classList.toggle('hidden');
+    });
+</script>
+</body>
+</html>
