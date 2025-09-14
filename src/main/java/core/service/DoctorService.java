@@ -38,7 +38,7 @@ public class DoctorService {
         
         report.setIsApproved(true);
         report.setHealthStatus("Fit to Donate");
-        report.setUpdatedAt(LocalDateTime.now());
+        // updatedAt will be set automatically by @PreUpdate callback
         
         return donorMedicalReportRepository.save(report);
     }
@@ -55,7 +55,7 @@ public class DoctorService {
         
         report.setIsApproved(false);
         report.setHealthStatus("Unfit");
-        report.setUpdatedAt(LocalDateTime.now());
+        // updatedAt will be set automatically by @PreUpdate callback
         
         return donorMedicalReportRepository.save(report);
     }
@@ -75,7 +75,7 @@ public class DoctorService {
         String updatedNotes = existingNotes.isEmpty() ? notes : existingNotes + "\n\n" + notes;
         
         report.setDoctorNotes(updatedNotes);
-        report.setUpdatedAt(LocalDateTime.now());
+        // updatedAt will be set automatically by @PreUpdate callback
         
         return donorMedicalReportRepository.save(report);
     }
@@ -148,8 +148,7 @@ public class DoctorService {
      * @return the created medical report
      */
     public DonorMedicalReport createMedicalReport(DonorMedicalReport report) {
-        report.setCreatedAt(LocalDateTime.now());
-        report.setUpdatedAt(LocalDateTime.now());
+        // Timestamps will be set automatically by @PrePersist callback
         return donorMedicalReportRepository.save(report);
     }
     
@@ -159,7 +158,7 @@ public class DoctorService {
      * @return the updated medical report
      */
     public DonorMedicalReport updateMedicalReport(DonorMedicalReport report) {
-        report.setUpdatedAt(LocalDateTime.now());
+        // updatedAt will be set automatically by @PreUpdate callback
         return donorMedicalReportRepository.save(report);
     }
     

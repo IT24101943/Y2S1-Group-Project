@@ -57,8 +57,7 @@ public class DonorMedicalReport {
         this.isApproved = isApproved;
         this.appointmentDate = appointmentDate;
         this.doctorId = doctorId;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        // Timestamps will be set by @PrePersist callback
     }
     
     // JPA lifecycle callbacks
